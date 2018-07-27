@@ -18,5 +18,3 @@
 </ul>
 {!! $users->render() !!}
 @endif
-
-@endif
