@@ -44,17 +44,14 @@ class MicropostsController extends Controller
             $user = \Auth::user();
             
             // $micropostsには microposts テーブルのデータがMicropostモデルのインスタンスが複数入った配列の形式で代入される
-            $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+            $microposts = $user->feed_microposts()->orderBy('created_at', 'desc')->paginate(10);
 
             $data = [
                 'user' => $user,
                 'microposts' => $microposts,
             ];
-            $data += $this->counts($user);
-            return view('users.show', $data);
-        }else {
-            return view('welcome');
-        }
+        }    
+        return view('welcome', $data);
     }
     public function store(Request $request)
     {
