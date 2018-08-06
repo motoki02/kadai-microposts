@@ -15,9 +15,35 @@ class MicropostsController extends Controller
      */
     public function index()
     {
+        // $micropostsには microposts テーブルのデータがMicropostモデルのインスタンスが複数入った配列の形式で代入される
+        // $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+
+        // $data = [
+        //     'user' => $user,
+        //     'microposts' => $microposts,
+        // ];
+        
+        // $data += ['microposts_count' => 1];
+        // $data = $data + ['microposts_count' => 1];
+        // ['user' => $user, 'microposts' => $microposts, 'microposts_count' => 1]
+        
+        // ViewファイルをHTMLに変換する
+        // $userをusers.showの中で$customerという名前で使用したい！
+        // $customer?いきなりでてきた
+        
+        // 普通の配列の概念
+        // [部屋番号 => 中の住人]
+        // $view = view('users.show', ['user' => $user, 'microposts' => $microposts, 'microposts_count' => 1]);
+        // // ユーザーにHTMLを返してあげる
+        // return $view;
+        
+        
         $data = [];
         if (\Auth::check()) {
+            // データベースからログイン中の会員の情報を取得し、Userモデルのインスタンスとして$userに代入
             $user = \Auth::user();
+            
+            // $micropostsには microposts テーブルのデータがMicropostモデルのインスタンスが複数入った配列の形式で代入される
             $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
 
             $data = [
