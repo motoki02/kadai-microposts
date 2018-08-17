@@ -61,4 +61,32 @@ class UsersController extends Controller
         
         return view('users.followers', $data);
     }
+    
+    public function favorites($id)
+    {
+        // Model 1 = 1 Table
+        // User <=> users
+        // ModelはTableの中のデータをPHPから扱いやすい形式にしたクラスの事
+        $user = User::find($id);
+        $favorites = $user->favorites()->orderBy('created_at', 'desc')->paginate(10);
+        
+        // $favoritesの中身はMicropostモデルが複数入っている配列
+        // なぜ、それが 74 行目で usersという名称になっているのか
+        // 参考にすべきは follow機能ではなく、timelineの方
+        $data = [
+            'user' => $user,
+            'microposts' => $favorites, // $microposts
+        ];
+        
+        // タブ毎にある複数のmicropostsのtimeline/followers/following/favoritesデータの件数を集計している
+        // タブ毎にある一人のUserのtimeline/followers/following/favoritesデータの件数を集計している
+        $data += $this->counts($user); // micropostsテーブルの複数行分のデータ
+        
+        // Viewで必要な情報
+        // Userの情報 => $user
+        // Favoritesしたもの => $microposts (作成時間など):10個分
+        // タブ毎のデータの件数
+        return view('users.favorites',$data);
+    }
+    
 }

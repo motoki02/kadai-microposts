@@ -75,4 +75,5 @@ class MicropostsController extends Controller
 
         return redirect()->back();
     }
+    
 }
